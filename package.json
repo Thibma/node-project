@@ -1,16 +1,29 @@
 {
-  "name": "node-project",
-  "version": "0.0.0",
-  "private": true,
+  "name": "note-keeper-tests",
+  "version": "1.0.0",
+  "description": "Automated tests for https://adrienjoly.com/cours-nodejs/05-proj/",
+  "main": "server.js",
+  "engines": {
+    "node": "12.15"
+  },
+  "engineStrict": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node server.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "ava --verbose ./tests/all.test.js"
+  },
+  "devDependencies": {
+    "ava": "^3.5.0",
+    "axios": "^0.19.2",
+    "babel-runtime": "^6.26.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "mongomem": "^0.1.9"
   },
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "hjs": "~0.0.6",
-    "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
+    "express": "4.17.1",
+    "mongodb": "^3.5.5"
   }
 }
