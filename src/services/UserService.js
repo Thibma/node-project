@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 import User from "./../models/User";
 
+const jwt = require('jsonwebtoken');
+
+const jwtExpirySeconds = 300;
+const jwtKey="mySecretKey";
+
 class UserWebService {
   constructor() {
     this.model = new User().getInstance();
@@ -57,15 +62,23 @@ class UserWebService {
 
 
 /**
- * INSERT Data in collection 
- */  
+ * INSERT Data in collection
+ */
   async insert(data) {
+    console.log("jwt key :", jwtKey);
+    const username = data.username;
     try {
       let item = await this.model.create(data);
       if (item)
+      console.log("user created");
+      const token = jwt.sign({ username }, jwtKey, {
+        algorithm: 'HS256',
+        expiresIn: jwtExpirySeconds
+      });
+      console.log('token:', token);
         return {
-          error: false,
-          item
+          error: null,
+          token
         };
     } catch (error) {
       console.log("error", error);
@@ -77,7 +90,7 @@ class UserWebService {
       };
     }
   }
-  
+
 
 
 

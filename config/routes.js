@@ -14,11 +14,11 @@ export default (app) => {
   app.delete(`/api/note/:id`, noteController.delete);
 
 
-  
+
   // user routes
   app.get(`/api/user`, userController.getAll);
   app.get(`/api/user/:params`, userController.get);
-  app.post(`/api/user`, userController.insert)
+  app.post(`/api/signup`, userController.insert)
   app.put(`/api/user/:id`, userController.update);
   app.delete(`/api/user/:id`, userController.delete);
 }
