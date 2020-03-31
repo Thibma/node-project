@@ -19,6 +19,7 @@ export default (app) => {
   app.get(`/api/user`, userController.getAll);
   app.get(`/api/user/:params`, userController.get);
   app.post(`/api/signup`, userController.insert)
+  app.post('/api/signin', userController.signIn)
   app.put(`/api/user/:id`, userController.update);
   app.delete(`/api/user/:id`, userController.delete);
 }
