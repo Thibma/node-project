@@ -5,25 +5,20 @@ class Note {
 
   initSchema() {
     const schema = new Schema({
-      titre:{
-        type: String,
+    userId:{
+        type: mongoose.Types.ObjectId,
         required: true,
     },
-    contenue:{
-        type: String,
-        required: true,
-    },
-    Categorie:{
+    content:{
         type: String,
         required: true, 
     },
-    author:{
-      type: Schema.Types.ObjectId,
-      ref: 'User',
+    createdAt:{
+      type: Date,
       required: true,
     },
-    Tag:{
-        type: String,
+    lastUpdateAt:{
+        type: Date,
         required: true,
     }
 }, { timestamps: true });
