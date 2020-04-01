@@ -1,4 +1,4 @@
-class Controller {
+  class Controller {
 
   constructor(service) {
     this.service = service;
@@ -45,7 +45,7 @@ class Controller {
 
     return res.status(response.statusCode).send(response);
   }
-  
+
 }
 
 export default Controller;

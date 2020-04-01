@@ -5,7 +5,11 @@ class User {
 
   initSchema() {
     const schema = new Schema({
+<<<<<<< HEAD
     username:{
+=======
+      username:{
+>>>>>>> 80435dcf27436ae3d50e7aa00d3f9e933f8e80b8
         type: String,
         required: true,
     },
