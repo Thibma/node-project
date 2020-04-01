@@ -5,17 +5,13 @@ class User {
 
   initSchema() {
     const schema = new Schema({
-      nom:{
+    username:{
         type: String,
         required: true,
     },
-    prenom:{
+    password:{
         type: String,
         required: true,
-    },
-    mail:{
-        type: String,
-        required: true, 
     }
 }, { timestamps: true });
     schema.plugin(uniqueValidator);
