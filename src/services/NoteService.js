@@ -1,5 +1,12 @@
 import mongoose from "mongoose";
 import Note from "./../models/Note";
+import { response } from "express";
+
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+
+const jwtExpirySeconds = 300;
+const jwtKey="mySecretKey";
 
 class Service {
   constructor() {
@@ -9,6 +16,22 @@ class Service {
     this.insert = this.insert.bind(this);
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
+    this.getNotes = this.getNotes.bind(this);
+  }
+
+  async getNotes(data) {
+    const token = data['x-access-token'];
+    var user = "";
+    if (token == null) {
+      return response.sendStatus(401);
+    }
+
+    jwt.verify(token, jwtKey, (err, username) => {
+      if (err) return response.sendStatus(401)
+      user = username;
+    })
+    
+    return user.username;
   }
 
 

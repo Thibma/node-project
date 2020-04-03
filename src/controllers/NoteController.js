@@ -6,8 +6,15 @@ class NoteController extends Controller {
 
   constructor(service) {
     super(service);
+    this.getNotes = this.getNotes.bind(this);
   }
   
+  async getNotes(req, res) {
+    let response = await this.service.getNotes(req.headers);
+    console.log(response);
+    res.send(response);
+  }
+
 }
 
 export default new NoteController(noteService);
