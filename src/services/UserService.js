@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
 import User from "./../models/User";
 
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+
+const jwtExpirySeconds = 300;
+const jwtKey="mySecretKey";
+
 class UserWebService {
   constructor() {
     this.model = new User().getInstance();
@@ -57,15 +63,27 @@ class UserWebService {
 
 
 /**
- * INSERT Data in collection 
- */  
+ * INSERT Data in collection
+ */
   async insert(data) {
+    const hashedPassword = bcrypt.hashSync(data.password, 8);
+    console.log("password:", data.password);
+    console.log("hashedPassword:", hashedPassword);
+    const username = data.username;
+    data.password = hashedPassword;
+    console.log("hashedPassword by data:", data.password);
     try {
       let item = await this.model.create(data);
       if (item)
+      console.log("user created");
+      const token = jwt.sign({ username }, jwtKey, {
+        algorithm: 'HS256',
+        expiresIn: jwtExpirySeconds
+      });
+      console.log('token:', token);
         return {
-          error: false,
-          item
+          error: null,
+          token
         };
     } catch (error) {
       console.log("error", error);
@@ -77,7 +95,52 @@ class UserWebService {
       };
     }
   }
-  
+
+  async signIn(data){
+    const username = data.username;
+    console.log("username : ", data.username);
+    console.log("password : ", data.password);
+    const hashedPassword = bcrypt.hashSync(data.password, 8);
+    console.log("hasched password : ", hashedPassword);
+    let user = await this.model.findOne({ username: data.username });
+    try{
+      if(user){
+        console.log("user :", user);
+        const authenticate = bcrypt.compareSync(data.password ,user.password);
+        console.log("authenticate = ", authenticate);
+        if(authenticate){
+          const token = jwt.sign({ username }, jwtKey, {
+            algorithm: 'HS256',
+            expiresIn: jwtExpirySeconds
+          });
+          console.log("token : ", token);
+          return {
+            error: null,
+            token
+          }
+        }else{
+          console.log("wrong password");
+          return {
+            error: true
+          }
+        }
+      }
+    }catch (error) {
+      console.log("error", error);
+      return {
+        error: true,
+        statusCode: 500,
+        message: error.errmsg || "Not able to create item",
+        errors: error.errors
+      };
+    }
+
+
+  }
+
+
+
+
 
 
 
@@ -101,11 +164,11 @@ class UserWebService {
     }
   }
 /**
- * DELETE the Document
+ * DELETE the user by his username in parameter
  */
-  async delete(id) {
+  async delete(username) {
     try {
-      let item = await this.model.findByIdAndDelete(id);
+      let item = await this.model.deleteOne({ username: username });
       if (!item)
         return {
           error: true,
