@@ -30,8 +30,56 @@ class Service {
       if (err) return response.sendStatus(401)
       user = username;
     })
-    
-    return user.username;
+    let dbUser = mongoose.model('users').findOne({ username: user.username });
+
+    console.log(dbUser);
+
+    let items = await this.model.find({ userId: (await dbUser).id} )
+    .skip(0)
+    .limit(10);
+    let total = await this.model.countDocuments();
+
+    return {
+      items,
+      total
+    };
+  }
+
+  async createNotes(header, data) {
+    const token = header['x-access-token'];
+    var user = "";
+    if (token == null) {
+      return response.sendStatus(401);
+    }
+
+    jwt.verify(token, jwtKey, (err, username) => {
+      if (err) return response.sendStatus(401)
+      user = username;
+    })
+
+    let dbUser = mongoose.model('users').findOne({ username: user.username });
+
+    data.userId = new mongoose.mongo.ObjectId((await dbUser)._id);
+    data.createdAt = Date.now();
+    data.lastUpdateAt = Date.now();
+
+    try {
+      let item = await this.model.create(data);
+      if (item)
+        return {
+          error: false,
+          item
+        };
+    } catch (error) {
+      console.log("error", error);
+      return {
+        error: true,
+        statusCode: 500,
+        message: error.errmsg || "Not able to create item",
+        errors: error.errors
+      };
+    }
+
   }
 
 

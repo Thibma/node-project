@@ -4,7 +4,12 @@ import userController from './../src/controllers/UserController';
 export default (app) => {
 
   // note routes
-  app.get(`/api/note`, noteController.getNotes);
+
+  // EN COURS //
+  app.get(`/api/notes`, noteController.getNotes);
+
+  app.put('/api/notes', noteController.createNote);
+
   app.get(`/api/note/:params`, noteController.get);
   //-----> WIP ------->
   app.get(`/api/note/author/:params`, noteController.getByAuthor);
