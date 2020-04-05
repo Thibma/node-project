@@ -192,9 +192,24 @@ class Service {
 /**
  * UPDATE Documents based on the ID
  */
-  async update(id, data) {
+  async update(id, idToken, data) {
+    const token = idToken['x-access-token'];
+    var user = "";
+    if (token == null) {
+      return response.sendStatus(401);
+    }
+
+    jwt.verify(token, jwtKey, (err, username) => {
+      if (err) return response.sendStatus(401)
+      user = username;
+    })
+    let dbUser = mongoose.model('users').findOne({ username: user.username });
+
+    console.log(id);
+
     try {
-      let item = await this.model.findByIdAndUpdate(id, data, { new: true });
+      let item = await this.model.findByIdAndUpdate(id, { content: data.data });
+      item = await this.model.findOne({ _id: id });
       return {
         error: false,
         statusCode: 202,
@@ -211,7 +226,19 @@ class Service {
 /**
  * DELETE the Document
  */
-  async delete(id) {
+  async delete(id, tokenId) {
+    const token = tokenId['x-access-token'];
+    var user = "";
+    if (token == null) {
+      return response.sendStatus(401);
+    }
+
+    jwt.verify(token, jwtKey, (err, username) => {
+      if (err) return response.sendStatus(401)
+      user = username;
+    })
+    let dbUser = mongoose.model('users').findOne({ username: user.username });
+
     try {
       let item = await this.model.findByIdAndDelete(id);
       if (!item)

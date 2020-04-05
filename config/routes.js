@@ -15,8 +15,8 @@ export default (app) => {
   app.get(`/api/note/author/:params`, noteController.getByAuthor);
   //-----> WIP ------->
   app.post(`/api/note`, noteController.insert)
-  app.put(`/api/note/:id`, noteController.update);
-  app.delete(`/api/note/:id`, noteController.delete);
+  app.patch('/api/notes/:id', noteController.update);
+  app.delete(`/api/notes/:id`, noteController.delete);
 
 
 
