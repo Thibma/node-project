@@ -4,20 +4,23 @@ import userController from './../src/controllers/UserController';
 export default (app) => {
 
   // note routes
-  app.get(`/api/note`, noteController.getAll);
-  app.get(`/api/note/:params`, noteController.get);
-  //-----> WIP ------->
-  app.get(`/api/note/author/:params`, noteController.getByAuthor);
-  //-----> WIP ------->
-  app.post(`/api/note`, noteController.insert)
-  app.put(`/api/note/:id`, noteController.update);
+
+  /**
+   * - POST /signup
+   * - POST /signin
+   * - GET /notes
+   * - PUT /notes
+   * - PATCH /notes/:id
+   * - DELETE /notes/:id
+   */
+  app.get(`/api/notes`, noteController.getAll);
+  app.put(`/api/note`, noteController.insert);
+  app.patch(`/api/notes/:id`, noteController.update);
   app.delete(`/api/note/:id`, noteController.delete);
 
 
 
   // user routes
-  app.get(`/api/user`, userController.getAll);
-  app.get(`/api/user/:params`, userController.get);
   app.post(`/api/signup`, userController.insert)
   app.post('/api/signin', userController.signIn)
   app.put(`/api/user/:id`, userController.update);

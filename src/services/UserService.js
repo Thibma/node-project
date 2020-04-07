@@ -96,6 +96,8 @@ class UserWebService {
     }
   }
 
+
+
   async signIn(data){
     const username = data.username;
     console.log("username : ", data.username);
@@ -116,7 +118,7 @@ class UserWebService {
           console.log("token : ", token);
           return {
             error: null,
-            token
+            token: token,
           }
         }else{
           console.log("wrong password");
@@ -137,11 +139,6 @@ class UserWebService {
 
 
   }
-
-
-
-
-
 
 
 /**
@@ -204,5 +201,5 @@ class UserWebService {
     }
   }
 }
-
+module.export = jwtKey;
 export default UserWebService;
