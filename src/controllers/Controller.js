@@ -11,7 +11,7 @@
   }
 
   async getAll(req, res) {
-    return res.status(200).send(await this.service.getAll(req.query));
+    return res.status(response.statusCode).send(await this.service.getAll(req.query));
   }
 
   async getByAuthor(req, res){
