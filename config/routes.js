@@ -5,18 +5,18 @@ export default (app) => {
 
   // note routes
 
-  /**
-   * - POST /signup
-   * - POST /signin
-   * - GET /notes
-   * - PUT /notes
-   * - PATCH /notes/:id
-   * - DELETE /notes/:id
-   */
-  app.get(`/api/notes`, noteController.getAll);
-  app.put(`/api/note`, noteController.insert);
-  app.patch(`/api/notes/:id`, noteController.update);
-  app.delete(`/api/note/:id`, noteController.delete);
+  // EN COURS //
+  app.get(`/api/notes`, noteController.getNotes);
+
+  app.put('/api/notes', noteController.createNote);
+
+  app.get(`/api/note/:params`, noteController.get);
+  //-----> WIP ------->
+  app.get(`/api/note/author/:params`, noteController.getByAuthor);
+  //-----> WIP ------->
+  app.post(`/api/note`, noteController.insert)
+  app.patch('/api/notes/:id', noteController.update);
+  app.delete(`/api/notes/:id`, noteController.delete);
 
 
 
