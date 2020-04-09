@@ -1,3 +1,6 @@
+/** Controller de la partie Users */
+
+// Importation des services
 import UserService from  "../services/UserService";
 const userService = new UserService();
 
@@ -5,12 +8,39 @@ class UserController {
 
   constructor() {
     this.service = userService;
+    this.signUp = this.signUp.bind(this);
+    this.signIn = this.signIn.bind(this);
+
+    // A VERIFIER
     this.getAll = this.getAll.bind(this);
     this.get = this.get.bind(this);
-    this.insert = this.insert.bind(this);
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
     this.getByAuthor = this.getByAuthor.bind(this);
+  }
+
+  // post('/api/signup')
+  async signUp(req, res) {
+    let response = await this.service.signUp(req.body);
+    console.log(response);
+    if (response.statusCode) {
+      res.status(response.statusCode).send(response);
+    }
+    else {
+      res.send(response);
+    }
+  }
+
+  // post('/api/signin')
+  async signIn(req, res) {
+    let response = await this.service.signIn(req.body);
+    console.log(response);
+    if (response.statusCode) {
+      res.status(response.statusCode).send(response);
+    }
+    else {
+      res.send(response);
+    }
   }
 
   async getAll(req, res) {
@@ -27,23 +57,6 @@ class UserController {
     return res.status(response.statusCode).send(response);
   }
 
-  async insert(req, res) {
-    let response = await this.service.insert(req.body);
-    return{
-    response : error ? res.status(response.statusCode).send(response) : res.status(201).send(response)
-    }
-  }
-
-
-
-  async signIn(req, res) {
-    let response = await this.service.signIn(req.body);
-    return {
-      status: res.status(response.statusCode).send(response),
-  }  }
-
-
-
   async update(req, res) {
     const { id } = req.params;
 
@@ -53,13 +66,11 @@ class UserController {
   }
 
   async delete(req, res) {
-    const { id } = req.params;
-
-    let response = await this.service.delete(id);
-
+    let response = await this.service.delete(req.params.id);
     return res.status(response.statusCode).send(response);
   }
 
 }
 
+// Utilisé dans /config/routes.js
 export default new UserController();

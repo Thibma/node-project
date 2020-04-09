@@ -1,3 +1,5 @@
+/** Fichier source gérant la base de donnée (utilisé une seul fois) */
+
 import mongoose from "mongoose";
 
 
@@ -5,6 +7,7 @@ import mongoose from "mongoose";
  * Singleton: Classe instanciable qu'une fois
  * Il sera automatiquement utiliser par Node lors de son instanciation et donc sera utiliser qu'une fois
  */
+// Connexion à la BDD MongoDB en ligne
 class Connection {
   constructor() {
     const url =
@@ -21,4 +24,5 @@ class Connection {
   }
 }
 
+// Utilisé dans /index.js
 export default new Connection();

@@ -1,8 +1,11 @@
+/** Modèle pour les User */
+
 import mongoose, { Schema } from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
 
 class User {
 
+  // Schéma de User pour mongodb
   initSchema() {
     const schema = new Schema({
     username:{
@@ -24,4 +27,5 @@ class User {
   }
 }
 
+// Utilisé dans /src/services/UserService.js
 export default User;

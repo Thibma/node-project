@@ -1,8 +1,13 @@
+/**
+ * Modèle des notes
+ */
+
 import mongoose, { Schema } from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
 
 class Note {
 
+  // Schéma des notes
   initSchema() {
     const schema = new Schema({
     userId:{
@@ -19,12 +24,13 @@ class Note {
     },
     lastUpdateAt:{
         type: Date,
-        required: true,
+        // required: false,  // Car "null" lors de la création d'une note.
     }
 }, { timestamps: true });
     schema.plugin(uniqueValidator);
     mongoose.model("notes", schema);
   }
+
 //Similaire à ce qu'on a fait avec Briatte on renvoie une instance du model
   getInstance() {
     this.initSchema();
@@ -32,4 +38,5 @@ class Note {
   }
 }
 
+// Utilisé dans /src/services/NoteServices.js
 export default Note;
