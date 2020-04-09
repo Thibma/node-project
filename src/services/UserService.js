@@ -1,13 +1,13 @@
 /** Fichier contenant tous le code gérant chaque route pour les users */
 
-import mongoose from "mongoose";
-import User from "./../models/User";
+import mongoose from 'mongoose';
+import User from './../models/User';
 
 // Token JWT
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const jwtExpirySeconds = 84500;
-const jwtKey="mySecretKey";
+const jwtKey='mySecretKey';
 
 class UserWebService {
   constructor() {
@@ -27,40 +27,40 @@ class UserWebService {
     // Vérification du username et du password
     if (data.password.length < 4) {
       return {
-        error: "Le mot de passe doit contenir au moins 4 caractères",
+        error: 'Le mot de passe doit contenir au moins 4 caractères',
         statusCode: 400
       };
     }
     if (!/^[a-z]+$/.test(data.username)) {
       return {
-        error: "Votre identifiant ne doit contenir que des lettres minuscules non accentuées",
+        error: 'Votre identifiant ne doit contenir que des lettres minuscules non accentuées',
         statusCode: 400
       };
     }
     if (data.username.length < 2 || data.username.length > 20) {
       return {
-        error: "Votre identifiant doit contenir entre 2 et 20 caractères",
+        error: 'Votre identifiant doit contenir entre 2 et 20 caractères',
         statusCode: 400
       };
     }
     if (await this.model.findOne({ username: data.username }) != null) {
       return {
-        error: "Cet identifiant est déjà associé à un compte",
+        error: 'Cet identifiant est déjà associé à un compte',
         statusCode: 400
       };
     }
 
     // Hashage du mot de passe
     const hashedPassword = bcrypt.hashSync(data.password, 8);
-    //console.log("password:", data.password);
-    //console.log("hashedPassword:", hashedPassword);
+    //console.log('password:', data.password);
+    //console.log('hashedPassword:', hashedPassword);
     data.password = hashedPassword;
-    //console.log("hashedPassword by data:", data.password);
+    //console.log('hashedPassword by data:', data.password);
 
     // Insertion de l'utilisateur dans la BDD + signature du token
     try {
       let item = await this.model.create(data);
-      //console.log("Utilisateur créé");
+      //console.log('Utilisateur créé');
       let username = data.username;
 
       const token = jwt.sign({ username }, jwtKey, {
@@ -77,11 +77,11 @@ class UserWebService {
 
     // Erreurs internes
     catch (error) {
-      console.log("Erreur : ", error);
+      console.log('Erreur : ', error);
       return {
         error: true,
         statusCode: 500,
-        message: error.errmsg || "Impossible de créer l'objet",
+        message: error.errmsg || 'Impossible de créer l\'objet',
         errors: error.errors
       };
     }
@@ -89,25 +89,25 @@ class UserWebService {
 
   // post('/api/signin')
   async signIn(data){
-    //console.log("username : ", data.username);
-    //console.log("password : ", data.password);
+    //console.log('username : ', data.username);
+    //console.log('password : ', data.password);
 
     // Vérification du username et du password
     if (data.password.length < 4) {
       return {
-        error: "Le mot de passe doit contenir au moins 4 caractères",
+        error: 'Le mot de passe doit contenir au moins 4 caractères',
         statusCode: 400
       };
     }
     if (!/^[a-z]+$/.test(data.username)) {
       return {
-        error: "Votre identifiant ne doit contenir que des lettres minuscules non accentuées",
+        error: 'Votre identifiant ne doit contenir que des lettres minuscules non accentuées',
         statusCode: 400
       };
     }
     if (data.username.length < 2 || data.username.length > 20) {
       return {
-        error: "Votre identifiant doit contenir entre 2 et 20 caractères",
+        error: 'Votre identifiant doit contenir entre 2 et 20 caractères',
         statusCode: 400
       };
     }
@@ -119,11 +119,11 @@ class UserWebService {
       if (user) {
 
         const hashedPassword = bcrypt.hashSync(data.password, 8);
-        //console.log("Mot de passe hash : ", hashedPassword);
+        //console.log('Mot de passe hash : ', hashedPassword);
 
-        //console.log("User dans la bdd :", user);
+        //console.log('User dans la bdd :', user);
         const authenticate = bcrypt.compareSync(data.password, user.password);
-        //console.log("Authentifié = ", authenticate);
+        //console.log('Authentifié = ', authenticate);
 
         if(authenticate) {
           let username = data.username;
@@ -132,25 +132,25 @@ class UserWebService {
           expiresIn: jwtExpirySeconds
           });
 
-          //console.log("Token attribué : ", token);
+          //console.log('Token attribué : ', token);
           return {
             error: null,
             token: token,
-          }
+          };
  
         }
 
         else {
-          console.log("Mot de passe incorrect.");
+          console.log('Mot de passe incorrect.');
           return {
             error: true
-          }
+          };
         }
         
       }
       else {
         return {
-          error: "Cet identifiant est inconnu",
+          error: 'Cet identifiant est inconnu',
           statusCode: 403
         };
       }
@@ -158,11 +158,11 @@ class UserWebService {
     
     // Erreur internes
     catch (error) {
-      console.log("error", error);
+      console.log('error', error);
       return {
         error: true,
         statusCode: 500,
-        message: error.errmsg || "Impossible de créer l'objet",
+        message: error.errmsg || 'Impossible de créer l\'objet',
         errors: error.errors
       };
     }
@@ -190,7 +190,7 @@ class UserWebService {
         //Créer un ObjectID à partir de l'ID du Document récupèrer
         query._id = new mongoose.mongo.ObjectId(query._id);
       } catch (error) {
-        console.log("not able to generate mongoose id with content", query._id);
+        console.log('not able to generate mongoose id with content', query._id);
       }
     }
 
@@ -245,19 +245,19 @@ class UserWebService {
         return {
           error: true,
           statusCode: 404,
-          message: "item not found"
+          message: 'item not found'
         };
 
-      console.log("removed item", item);
+      console.log('removed item', item);
 
       if (item.path) {
-        console.log("unlink item", item.path);
+        console.log('unlink item', item.path);
         fs.unlink(item.path, function(err) {
           if (err) {
-            console.log("error deleting file");
+            console.log('error deleting file');
             throw err;
           }
-          console.log("File deleted!");
+          console.log('File deleted!');
         });
       }
 

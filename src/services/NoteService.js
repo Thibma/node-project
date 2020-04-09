@@ -1,11 +1,11 @@
 /** Fichier contenant tous le code gérant chaque routes pour les notes */
 
-import mongoose from "mongoose";
-import Note from "./../models/Note";
+import mongoose from 'mongoose';
+import Note from './../models/Note';
 
 // Token JWT
 const jwt = require('jsonwebtoken');
-const jwtKey = "mySecretKey";
+const jwtKey = 'mySecretKey';
 
 class Service {
   constructor() {
@@ -30,7 +30,7 @@ class Service {
     // Utilisateur authentifiés
     try {
       let dbUser = await mongoose.model('users').findOne({ username: user });
-      console.log("Utilisateur authentifié :", dbUser.username);
+      console.log('Utilisateur authentifié :', dbUser.username);
 
       let notes = await this.model.find({ userId: dbUser.id} ).sort( {createdAt: -1} );
 
@@ -64,7 +64,7 @@ class Service {
     // Utilisateur authentifiés
     try {
       let dbUser = await mongoose.model('users').findOne({ username: user });
-      console.log("Utilisateur authentifié :", dbUser.username);
+      console.log('Utilisateur authentifié :', dbUser.username);
   
       data.userId = new mongoose.mongo.ObjectId(dbUser._id);
       data.createdAt = new Date().getTime() + (2 * 60 * 60 * 1000);
@@ -80,9 +80,9 @@ class Service {
 
     // Erreurs internes
     catch (error) {
-      console.log("Erreur : ", error);
+      console.log('Erreur : ', error);
       return {
-        error : error.message || "Impossible de créer la note",
+        error : error.message || 'Impossible de créer la note',
         statusCode : 500
       };
     }
@@ -101,7 +101,7 @@ class Service {
     }
     
     // Vérification de la data entrante
-    if (data.content == null || data.content == "") {
+    if (data.content == null || data.content == '') {
       return {
         error: 'Contenu de la requête vide',
         statusCode: 400
@@ -118,9 +118,9 @@ class Service {
       try {
         let note = await this.model.findByIdAndUpdate(id, { content: data.content } );
         let date = new Date().getTime() + (2 * 60 * 60 * 1000);
-        note = await this.model.findByIdAndUpdate(id, { lastUpdateAt: date })
+        note = await this.model.findByIdAndUpdate(id, { lastUpdateAt: date });
         note = await this.model.findOne( { _id: id } );
-        console.log("Utilisateur authentifié :", dbUser.username);
+        console.log('Utilisateur authentifié :', dbUser.username);
 
         return {
           error : null,
@@ -141,9 +141,9 @@ class Service {
     // Note non possédée par l'user
     else {
       return {
-        error: "Accès non autorisé à cette note",
+        error: 'Accès non autorisé à cette note',
         statusCode: 403
-      }
+      };
     }
   }
 
@@ -163,24 +163,24 @@ class Service {
       let note = await this.model.findById(id);
       if(!note){
         return {
-          error: "Cet identifiant est inconnu",
+          error: 'Cet identifiant est inconnu',
           statusCode: 404,
         };
       }
 
       // Vérification si la note est bien possédée par l'utilisateur
       let dbUser = await mongoose.model('users').findOne({ username: user });
-      console.log("Utilisateur authentifié :", dbUser.username);
+      console.log('Utilisateur authentifié :', dbUser.username);
       if (note.userId.toString() != dbUser._id.toString()) {
         return {
-          error: "Accès non autorisé à cette note",
+          error: 'Accès non autorisé à cette note',
           statusCode: 403
-        }
+        };
       }
 
       // Suppression de la note
-      let deleted = await this.model.deleteOne(note)
-      console.log("Note supprimée : ", note);
+      let deleted = await this.model.deleteOne(note);
+      console.log('Note supprimée : ', note);
 
       return {
         error : null
@@ -198,7 +198,7 @@ class Service {
 
   // Fonction vérifiant les Token entrant
   async verifiedToken(token) {
-    var user = "";
+    var user = '';
     // Vérification du Token
     if (token == null) {
       return user = null;

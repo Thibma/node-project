@@ -1,7 +1,7 @@
 /** Controller de la partie Users */
 
 // Importation des services
-import UserService from  "../services/UserService";
+import UserService from  '../services/UserService';
 const userService = new UserService();
 
 class UserController {
@@ -49,11 +49,11 @@ class UserController {
 
   async getByAuthor(req, res){
     const { id } = req.params;
-    let response = await this.service.getByAuthor(req.query,id)
+    let response = await this.service.getByAuthor(req.query,id);
     return res.status(response.statusCode).send(response);  }
 
   async get(req, res) {
-    let response = await this.service.get(req.params)
+    let response = await this.service.get(req.params);
     return res.status(response.statusCode).send(response);
   }
 

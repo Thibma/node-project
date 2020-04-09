@@ -8,8 +8,8 @@ import userController from './../src/controllers/UserController';
 export default (app) => {
 
   // user routes
-  app.post('/api/signup', userController.signUp)  // POST /api/signup
-  app.post('/api/signin', userController.signIn)  // POST /api/signin
+  app.post('/api/signup', userController.signUp);  // POST /api/signup
+  app.post('/api/signin', userController.signIn);  // POST /api/signin
 
   // A VERIFIER
   app.get('/admin/user/getall', userController.getAll); // Non compris dans le sujet

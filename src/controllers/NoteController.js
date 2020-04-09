@@ -1,7 +1,7 @@
 /** Controller de la partie Notes */
 
 // Importation des Services
-import NoteService from  "../services/NoteService";
+import NoteService from  '../services/NoteService';
 const noteService = new NoteService();
 
 class NoteController {
