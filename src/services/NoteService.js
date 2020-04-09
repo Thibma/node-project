@@ -5,7 +5,8 @@ import Note from './../models/Note';
 
 // Token JWT
 const jwt = require('jsonwebtoken');
-const jwtKey = 'mySecretKey';
+const jwtKey = process.env.JWT_KEY || 'mySecretKey';
+console.log("noteservice jwtkey :", jwtKey);
 
 class Service {
   constructor() {
@@ -21,7 +22,7 @@ class Service {
     let user = await this.verifiedToken(header['x-access-token']); // Vérification du token
 
     if (user == null) {
-      return { 
+      return {
         error : 'Utilisateur non connecté',
         statusCode : 401
       };
@@ -55,7 +56,7 @@ class Service {
     let user = await this.verifiedToken(header['x-access-token']); // Vérifications du Token
 
     if (user == null) {
-      return { 
+      return {
         error : 'Utilisateur non connecté',
         statusCode : 401
       };
@@ -65,7 +66,7 @@ class Service {
     try {
       let dbUser = await mongoose.model('users').findOne({ username: user });
       console.log('Utilisateur authentifié :', dbUser.username);
-  
+
       data.userId = new mongoose.mongo.ObjectId(dbUser._id);
       data.createdAt = new Date().getTime() + (2 * 60 * 60 * 1000);
       data.lastUpdateAt = null;
@@ -76,7 +77,7 @@ class Service {
         error : null,
         note
       };
-    } 
+    }
 
     // Erreurs internes
     catch (error) {
@@ -94,12 +95,12 @@ class Service {
     let user = await this.verifiedToken(header['x-access-token']);
     console.log(data.content);
     if (user == null) {
-      return { 
+      return {
         error : 'Utilisateur non connecté',
         statusCode : 401
       };
     }
-    
+
     // Vérification de la data entrante
     if (data.content == null || data.content == '') {
       return {
@@ -126,9 +127,9 @@ class Service {
           error : null,
           note
         };
-        
+
       }
-      
+
       // Erreurs internes
       catch (error) {
         return {
@@ -152,12 +153,12 @@ class Service {
     // Vérifications du Token
     let user = await this.verifiedToken(header['x-access-token']);
     if (user == null) {
-      return { 
+      return {
         error : 'Utilisateur non connecté',
         statusCode : 401
       };
     }
-    
+
     // Vérification de l'ID de la note.
     try {
       let note = await this.model.findById(id);

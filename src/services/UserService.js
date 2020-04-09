@@ -7,7 +7,8 @@ import User from './../models/User';
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const jwtExpirySeconds = 84500;
-const jwtKey='mySecretKey';
+const jwtKey = process.env.JWT_KEY || 'mySecretKey';
+console.log("userservice jwtkey :", jwtKey);
 
 class UserWebService {
   constructor() {
@@ -137,7 +138,7 @@ class UserWebService {
             error: null,
             token: token,
           };
- 
+
         }
 
         else {
@@ -146,7 +147,7 @@ class UserWebService {
             error: true
           };
         }
-        
+
       }
       else {
         return {
@@ -155,7 +156,7 @@ class UserWebService {
         };
       }
     }
-    
+
     // Erreur internes
     catch (error) {
       console.log('error', error);
