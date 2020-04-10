@@ -1,5 +1,6 @@
 /** Fichier contenant tous le code gérant chaque route pour les users */
 
+require('dotenv').config();
 import mongoose from 'mongoose';
 import User from './../models/User';
 
@@ -7,8 +8,8 @@ import User from './../models/User';
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const jwtExpirySeconds = 84500;
-const jwtKey = process.env.JWT_KEY || 'mySecretKey';
-console.log("userservice jwtkey :", jwtKey);
+const jwtKey = process.env.JWT_KEY;
+//console.log("userservice jwtkey :", jwtKey);
 
 class UserWebService {
   constructor() {

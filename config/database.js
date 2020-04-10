@@ -1,5 +1,6 @@
 /** Fichier source gérant la base de donnée (utilisé une seul fois) */
 
+require('dotenv').config();
 import mongoose from 'mongoose';
 
 
@@ -10,9 +11,9 @@ import mongoose from 'mongoose';
 // Connexion à la BDD MongoDB en ligne
 class Connection {
   constructor() {
-    const url = process.env.MONGODB_URI || 'mongodb+srv://salayna:PraysTheGoblin@nodeapicluster-mushs.mongodb.net/test?retryWrites=true&w=majority';
+    const url = process.env.MONGODB_URI;
     console.log('Establish new connection with database');
-    console.log("using environment var : ", process.env.MONGODB_URI);
+    console.log("using environment var : ", url);
 
     //mongoose.Promise = global.Promise; -> Scope Global peut être appeler à plusieur endroit du code
     mongoose.Promise = global.Promise;

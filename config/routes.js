@@ -11,7 +11,10 @@ export default (app) => {
   app.post('/api/signup', userController.signUp);  // POST /api/signup
   app.post('/api/signin', userController.signIn);  // POST /api/signin
 
-  // A VERIFIER
+  // (Admin routes pour le débuggage)
+  app.get('/', function(req, res) {
+    res.send("Hello world !")
+  })
   app.get('/admin/user/getall', userController.getAll); // Non compris dans le sujet
   app.put('/admin/user/:id', userController.update);  // Non compris dans le sujet
   app.delete('/admin/user/:id', userController.delete); // Non compris dans le sujet

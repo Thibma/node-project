@@ -1,12 +1,13 @@
 /** Fichier contenant tous le code gérant chaque routes pour les notes */
 
+require('dotenv').config();
 import mongoose from 'mongoose';
 import Note from './../models/Note';
 
 // Token JWT
 const jwt = require('jsonwebtoken');
-const jwtKey = process.env.JWT_KEY || 'mySecretKey';
-console.log("noteservice jwtkey :", jwtKey);
+const jwtKey = process.env.JWT_KEY;
+//console.log("noteservice jwtkey :", jwtKey);
 
 class Service {
   constructor() {
