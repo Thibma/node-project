@@ -61,3 +61,5 @@ Si le serveur fonctionne, le message `Hello World !` devrait apparaître.
 
 ## Utilisation en production
 Le projet peut-être utilisé sur un serveur à distance comme Heroku. Il suffit de créer une application sur le site d'[Heroku](https://www.heroku.com/), suivre les indications et de renseigner les `Config Vars` dans les Settings. (`JWT_JEY` et `MONGODB_URI` seulement)
+Lien de l'API en production : 
+https://nodejs-group-project.herokuapp.com/
